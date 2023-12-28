@@ -12,8 +12,8 @@ const Quiz = () => {
   const handleSelectAnswer = useCallback(function handleSelectAnswer(
     selectedAnswer
   ) {
-    setUserAnswers((prevAnswers) => {
-      return [...prevAnswers, selectedAnswer];
+    setUserAnswers((prevUserAnswers) => {
+      return [...prevUserAnswers, selectedAnswer];
     });
   },
   []);
@@ -38,7 +38,11 @@ const Quiz = () => {
   return (
     <div id="quiz">
       <div id="question">
-        <QuestionTimer timeout={10000} onTimeout={handleSkipAnswer} />
+        <QuestionTimer
+          key={activeQuestionIndex}
+          timeout={5000}
+          onTimeout={handleSkipAnswer}
+        />
         <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
         <ul id="answers">
           {shuffledAnswers.map((answer) => (
