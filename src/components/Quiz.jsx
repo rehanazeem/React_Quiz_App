@@ -5,6 +5,7 @@ import quizComplete from "../assets/quiz-complete.png";
 
 const Quiz = () => {
   const [userAnswers, setUserAnswers] = useState([]);
+  const [answerState, setAnswerState] = useState("");
 
   const activeQuestionIndex = userAnswers.length;
   const quizIsComplete = activeQuestionIndex === QUESTIONS.length;
@@ -15,8 +16,16 @@ const Quiz = () => {
     setUserAnswers((prevUserAnswers) => {
       return [...prevUserAnswers, selectedAnswer];
     });
+
+    setTimeout(() => {
+      if (selectedAnswer === QUESTIONS[activeQuestionIndex].answers[0]) {
+        setAnswerState("correct");
+      } else {
+        setAnswerState("wrong");
+      }
+    }, 1000);
   },
-  []);
+  [activeQuestionIndex]);
 
   const handleSkipAnswer = useCallback(
     () => handleSelectAnswer(null),
