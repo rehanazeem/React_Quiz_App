@@ -7,7 +7,7 @@ const Quiz = () => {
   const [userAnswers, setUserAnswers] = useState([]);
   const [answerState, setAnswerState] = useState("");
 
-  const activeQuestionIndex = userAnswers.length;
+  const activeQuestionIndex = answerState === '' ? userAnswers.length : userAnswers.length - 1;
   const quizIsComplete = activeQuestionIndex === QUESTIONS.length;
 
   const handleSelectAnswer = useCallback(function handleSelectAnswer(
@@ -54,13 +54,24 @@ const Quiz = () => {
         />
         <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
         <ul id="answers">
-          {shuffledAnswers.map((answer) => (
-            <li key={answer} className="answer">
-              <button onClick={() => handleSelectAnswer(answer)}>
+          {shuffledAnswers.map((answer) => {
+            const isSelected = userAnswers[userAnswers.length - 1] === answer;
+            let cssClass = '';
+
+            if (answerState === 'answered' && isSelected) {
+              cssClass = 'selected';
+            }
+
+            if ((answerState ===  'correct' || answerState === 'wrong') && isSelected) {
+              cssClass = answerState;
+            }
+
+           return <li key={answer} className="answer">
+              <button onClick={() => handleSelectAnswer(answer)} className={cssClass}>
                 {answer}
               </button>
             </li>
-          ))}
+})}
         </ul>
       </div>
     </div>
